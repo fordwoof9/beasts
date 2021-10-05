@@ -1,11 +1,9 @@
-
-# A very simple Flask Hello World app for you to get started with...
-
-from flask import Flask
-
-app = Flask(__name__)
+from flask import Flask, render_template
+app = Flask(__name__, template_folder='./')
 
 @app.route('/')
-def hello_world():
-    return 'Hello from Flask!'
+def home():
+    return render_template('beasts.html')
 
+if __name__ == '__main__':
+    app.run(debug=True)
