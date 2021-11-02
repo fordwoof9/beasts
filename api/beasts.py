@@ -2,6 +2,7 @@ from flask import jsonify
 from config import db
 from models import Beast, BeastSchema
 from sqlalchemy.sql import text
+
 # Beasts API
 BEASTS = {
     "Niffler": {
@@ -31,4 +32,12 @@ def checkdb():
 
 # Retrieve all beasts
 def all():
-    return jsonify(BEASTS)
+    # Retrieve beast information from database order by Id
+    beast = Beast.query \
+        .order_by(Beast.id) \
+        .all()
+
+    # Serialize the beast object into response
+    beast_schema = BeastSchema(many=True)
+    data = beast_schema.dump(beast)
+    return data
