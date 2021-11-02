@@ -7,8 +7,18 @@ consumes:
 produces:
     - application/json
 basePath: /v1
-
 paths:
+    /checkdb:
+        get:
+            operationId: beasts.checkdb
+            tags:
+                - Beasts
+            summary: Check database connection
+            responses:
+                '200':
+                    description: Successful
+                    schema:
+                        type: string
     /beast:
         get:
             operationId: beasts.all
