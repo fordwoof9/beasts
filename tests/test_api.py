@@ -24,4 +24,4 @@ def test_retrieve_count_all():
 def test_retrieve_all_niffler():
     response = requests.get(url + '/v1/beast')
     response_body = response.json()
-    assert response_body["Niffler"]["name"] == "Niffler"
+    assert response_body[0]["name"] == "niffler"
