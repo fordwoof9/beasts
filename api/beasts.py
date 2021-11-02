@@ -1,9 +1,7 @@
-import flask
-import connexion
 from flask import jsonify
-from flask_sqlalchemy import SQLAlchemy
+from config import db
+from models import Beast, BeastSchema
 from sqlalchemy.sql import text
-
 # Beasts API
 BEASTS = {
     "Niffler": {
@@ -34,34 +32,3 @@ def checkdb():
 # Retrieve all beasts
 def all():
     return jsonify(BEASTS)
-
-# Create the application instance
-app = connexion.App(__name__, specification_dir='./')
-
-# Read the swagger.yml file to configure the endpoints
-app.add_api('beasts.yaml')
-
-# Get the underlying Flask app instance
-flask_app = app.app
-
-SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
-    username = "forddeza2545",
-    password = "!2345678",
-    hostname = "forddeza2545.mysql.pythonanywhere-services.com",
-    databasename = "forddeza2545$beasts",
-)
-flask_app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
-flask_app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
-flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-flask_app.config['SQLALCHEMY_ECHO'] = True
-
-# Create the SQLAlchemy db instance
-db = SQLAlchemy(flask_app)
-
-# Main route
-@app.route('/')
-def home():
-    return 'Beasts API'
-
-if __name__ == '__main__':
-    app.run()
