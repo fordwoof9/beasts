@@ -1,4 +1,5 @@
 import connexion
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
@@ -18,6 +19,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config['SQLALCHEMY_ECHO'] = True
+
+#Add CORS Support in API
+CORS(app)
 
 # Create the SQLAlchemy db instance
 db = SQLAlchemy(app)
