@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, abort
 from config import db
 from models import Beast, BeastSchema
 from sqlalchemy.sql import text
@@ -41,3 +41,33 @@ def all():
     beast_schema = BeastSchema(many=True)
     data = beast_schema.dump(beast)
     return data
+
+#Update beasts
+def update(beast_id, beast):
+    # Retrieve beast for updating
+    update_beast = Beast.query.filter(Beast.id == beast_id).one_or_none()
+
+    # Check for beast's duplication
+    name = beast.get("name")
+    existing_beast = (Beast.query.filter(Beast.name == name).one_or_none())
+
+    # Any beast matched?
+    if (update_beast is None):
+        abort(404, "Beast not found for Id: {beast_id}".format(beast_id=beast_id))
+
+    # Any duplicate beasts?
+    elif (existing_beast is not None and existing_beast.id != beast_id):
+        abort(409, "Beast {name} already exists".format(name=name))
+
+    # Update beast information
+    else:
+        # Update Beast in the database
+        schema = BeastSchema()
+        update = schema.load(beast, session=db.session)
+        update.id = update_beast.id
+        db.session.merge(update)
+        db.session.commit()
+
+        # Return updated beast information
+        data = schema.dump(update_beast)
+        return data, 200
