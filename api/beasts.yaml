@@ -38,3 +38,41 @@ paths:
                                     type: string
                                 image:
                                     type: string
+    /beast/{beast_id}:
+        put:
+            operationId: beasts.update
+            tags:
+                - Beasts
+            summary: Update beast
+            parameters:
+                - name: beast_id
+                  in: path
+                  description: Id of the Beast to update
+                  type: integer
+                  required: True
+                - name: beast
+                  in: body
+                  schema:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      image:
+                        type: string
+            responses:
+                200:
+                    description: Successfully update Beast information
+                    schema:
+                        properties:
+                            id:
+                                type: string
+                            name:
+                                type: string
+                            desc:
+                                type: string
+                            image:
+                                type: string
+                            create_timestamp:
+                                type: string
