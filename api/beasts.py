@@ -71,3 +71,22 @@ def update(beast_id, beast):
         # Return updated beast information
         data = schema.dump(update_beast)
         return data, 200
+
+# Create beasts
+def create(beast):
+    name = beast.get("name")
+    existing_beast = (Beast.query.filter(Beast.name == name).one_or_none())
+
+    # Add new beast
+    if existing_beast is None:
+        schema = BeastSchema()
+        new_beast = schema.load(beast, session=db.session)
+        db.session.add(new_beast)
+        db.session.commit()
+
+        data = schema.dump(new_beast)
+        return data, 201
+
+    # Duplicate beast
+    else:
+        abort(409, "Beast {name} already exists".format(name=name))

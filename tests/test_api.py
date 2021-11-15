@@ -44,5 +44,10 @@ def test_update_beast_not_match():
     response = requests.put(url + '/v1/beast/' + str(fairy_id),json = niffler_data)
     assert response.status_code == 409
 
+def test_create_niffler():
+    niffler_data = {"name": "niffler"}
+    response = requests.post(url + '/v1/beast',json = niffler_data)
+    assert response.status_code == 405
+
 
 
