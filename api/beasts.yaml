@@ -38,6 +38,39 @@ paths:
                                     type: string
                                 image:
                                     type: string
+        post:
+            operationId: beasts.create
+            tags:
+                - Beasts
+            summary: Create a beast
+            parameters:
+                - name: beast
+                  in: body
+                  required: True
+                  schema:
+                    type: object
+                    properties:
+                        name:
+                            type: string
+                        desc:
+                            type: string
+                        image:
+                            type: string
+            responses:
+                201:
+                    description: Successfully created beast
+                    schema:
+                        properties:
+                            id:
+                                type: string
+                            name:
+                                type: string
+                            desc:
+                                type: string
+                            image:
+                                type: string
+                            create_timestamp:
+                                type: string
     /beast/{beast_id}:
         put:
             operationId: beasts.update
