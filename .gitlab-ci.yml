@@ -1,6 +1,8 @@
 stages:
     - document
     - backend
+    - frontend
+    - deploy
 
 readme:
     stage: document
@@ -20,3 +22,30 @@ pytest:
         when: always
         reports:
             junit: report.xml
+
+build:
+    image: node:16
+    stage: frontend
+    variables:
+        PUBLIC_URL: https://fordwoof9.gitlab.io/beasts
+    script:
+        - cd ./frontend
+        - yarn install
+        - yarn build
+    artifacts:
+        paths:
+            - ./frontend/build/
+
+pages:
+    image: alpine:latest
+    stage: deploy
+    variables:
+        GIT_STRATEGY: none
+    script:
+        - mkdir public
+        - cp -Rv frontend/build/* public/
+        - cp public/index.html public/404.html
+        - export
+    artifacts:
+        paths:
+            - public/
