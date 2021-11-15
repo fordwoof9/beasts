@@ -1,7 +1,22 @@
 stages:
-- document
+    - document
+    - backend
 
 readme:
     stage: document
     script:
         - grep "Beasts" README.md | wc -l
+
+pytest:
+    image: python:latest
+    stage: backend
+    script:
+        - python --version
+        - pip3 install Flask connexion connexion[swagger-ui]
+        - pip3 install Flask-SQLAlchemy marshmallow marshmallow-sqlalchemy
+        - pip3 install pytest requests coverage pytest-cov
+        - pytest -v --junitxml=report.xml tests/
+    artifacts:
+        when: always
+        reports:
+            junit: report.xml
