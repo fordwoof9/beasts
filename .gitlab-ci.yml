@@ -1,6 +1,7 @@
 stages:
     - document
     - backend
+    - frontend
 
 readme:
     stage: document
@@ -20,3 +21,16 @@ pytest:
         when: always
         reports:
             junit: report.xml
+
+build:
+    image: node:16
+    stage: frontend
+    variables:
+        PUBLIC_URL: https://fordwoof9.gitlab.io/beasts
+    script:
+        - cd ./frontend
+        - yarn install
+        - yarn build
+    artifacts:
+        paths:
+            - ./frontend/build/
