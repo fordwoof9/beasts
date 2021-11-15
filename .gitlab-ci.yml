@@ -2,6 +2,7 @@ stages:
     - document
     - backend
     - frontend
+    - deploy
 
 readme:
     stage: document
@@ -34,3 +35,17 @@ build:
     artifacts:
         paths:
             - ./frontend/build/
+
+pages:
+    image: alpine:latest
+    stage: deploy
+    variables:
+        GIT_STRATEGY: none
+    script:
+        - mkdir public
+        - cp -Rv frontend/build/* public/
+        - cp public/index.html public/404.html
+        - export
+    artifacts:
+        paths:
+            - public/
