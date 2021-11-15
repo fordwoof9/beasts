@@ -1,0 +1,8 @@
+stages:
+- document
+
+readme:
+
+    stage: document
+    script:
+        - grep "Beasts" README.md | wc -l
