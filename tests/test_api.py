@@ -21,7 +21,7 @@ def test_retrieve_all():
 def test_retrieve_count_all():
     response = requests.get(url + '/v1/beast')
     response_body = response.json()
-    assert len(response_body) == 3
+    assert len(response_body) == 4
 
 def test_retrieve_all_niffler():
     response = requests.get(url + '/v1/beast')
@@ -47,7 +47,7 @@ def test_update_beast_not_match():
 def test_create_niffler():
     niffler_data = {"name": "niffler"}
     response = requests.post(url + '/v1/beast',json = niffler_data)
-    assert response.status_code == 405
+    assert response.status_code == 409
 
 
 
